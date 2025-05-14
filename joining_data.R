@@ -14,6 +14,8 @@ initiation <- read_csv(here("data/Initiation_20250514.csv")) |>
 intake <- read_csv(here("data/Intake_20250514.csv")) |> 
   janitor::clean_names()
 
+diversion <- read_csv(here("data/Diversion_20250514.csv")) |> 
+  janitor::clean_names()
 
-intake |> 
-  filter(case_id == "347835278065") |> view()
+sentencing <- read_csv(here("data/Sentencing_20250514.csv")) |> 
+  janitor::clean_names()
