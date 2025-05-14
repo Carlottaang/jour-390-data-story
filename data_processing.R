@@ -42,7 +42,7 @@ diversion |>
          diversion_closed_year = year(diversion_closed_date),
          # finding time in programs from referral to close
          time = diversion_closed_year - referral_year) |>
-  group_by(gender) |> 
+  filter(diversion_result == "Graduated") |> 
   count(time) |> 
   arrange(desc(n)) |> 
   view()
