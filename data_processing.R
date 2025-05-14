@@ -1,4 +1,4 @@
-### Joining data ----
+### Data processing ----
 
 # load packages 
 library(tidyverse)
@@ -25,8 +25,7 @@ diversion <- read_csv(here("data/Diversion_20250514.csv")) |>
 sentencing <- read_csv(here("data/Sentencing_20250514.csv")) |> 
   janitor::clean_names()
 
-
-# fixing date time 
+# data processing/analysis 
 diversion |> 
   # getting rid of cases where diversion_result = NA 
   filter(!is.na(diversion_result)) |> 
@@ -48,6 +47,10 @@ diversion |>
   arrange(desc(n)) |> 
   view()
 
+
+# processing steps to explore
+# joining data? 
+# deciding how to handle NA values // missing data 
 
   
   
