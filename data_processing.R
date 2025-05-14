@@ -30,6 +30,10 @@ sentencing <- read_csv(here("data/Sentencing_20250514.csv")) |>
 diversion |> 
   # getting rid of cases where diversion_result = NA 
   filter(!is.na(diversion_result)) |> 
+  # getting rid of cases where race is unknown 
+  filter(!(race == "Unknown")) |> 
+  # getting rid of cases where gender is unknown
+  filter(!(gender == "Unknown")) |> 
   # making dates usable + adding in year variables
   mutate(received_date = mdy_hms(received_date),
          received_year = year(received_date),
@@ -39,6 +43,7 @@ diversion |>
          diversion_closed_year = year(diversion_closed_date),
          # finding time in programs from referral to close
          time = diversion_closed_year - referral_year) |>
+  group_by(gender) |> 
   count(time) |> 
   arrange(desc(n)) |> 
   view()
