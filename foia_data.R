@@ -35,11 +35,6 @@ foia_data |>
   view()
 
 
-
-
-
-  
-
   
   
   
