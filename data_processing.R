@@ -66,10 +66,15 @@ diversion <- diversion |>
   mutate(
     referral_year = year(referral_date),
     diversion_closed_year = year(diversion_closed_date)
-  ) 
+  ) |> 
+  # removing incorrect values 
+  filter(!referral_year < 1970 )
 
 
 # data analysis & findings ----
+diversion |> 
+  filter(referral_year < 1970 ) |> 
+  view()
 
 
 # offense category
@@ -90,7 +95,10 @@ diversion |>
   view()
 
 # pre vs. post plea success/failure
-
+diversion |> 
+  group_by(plea) |> 
+  count(diversion_result) |> 
+  view()
 
 
 # breakdown of participants in diversion programs 
@@ -111,12 +119,6 @@ diversion |>
   filter(gender == "Male") |> 
   count(diversion_program) |> 
   view()
-
-
-
-# processing steps to explore
-# joining data? 
-# deciding how to handle NA values // missing data 
 
   
   
