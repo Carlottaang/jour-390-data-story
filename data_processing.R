@@ -118,6 +118,21 @@ diversion |>
   count(diversion_closed_year) |> 
   view()
 
+# number of failed cases every year 
+diversion |> 
+  group_by(diversion_closed_year) |>
+  filter(diversion_result == "Failed") |> 
+  count(diversion_result) |> 
+  view()
+  
+# number of graduates every year
+diversion |> 
+  group_by(diversion_closed_year) |>
+  filter(diversion_result == "Graduated") |> 
+  count(diversion_result) |> 
+  view()
+
+
 # pre vs. post plea success/failure
 diversion |> 
   # setting up to compare pre vs. post plea outcomes
@@ -153,6 +168,7 @@ diversion |>
   # selecting female participants only 
   filter(gender == "Female") |> 
   count(diversion_program) |> 
+  arrange(desc(n)) |>
   view()
 
 # male participants in programs
@@ -160,6 +176,7 @@ diversion |>
   # selecting male participants only 
   filter(gender == "Male") |> 
   count(diversion_program) |> 
+  arrange(desc(n)) |> 
   view()
   
 
