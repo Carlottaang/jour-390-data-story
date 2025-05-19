@@ -25,27 +25,51 @@ diversion <- read_csv(here("data/Diversion_20250514.csv")) |>
 sentencing <- read_csv(here("data/Sentencing_20250514.csv")) |> 
   janitor::clean_names()
 
-# data processing/analysis 
+# data processing 
+diversion <- diversion |> 
+  mutate(
+    # changing variable types / formatting of dates 
+    referral_date = as.POSIXct(
+      referral_date, 
+      format = "%m/%d/%Y %I:%M:%S %p"
+    ),
+    diversion_closed_date = as.POSIXct(
+      diversion_closed_date,
+      format = "%m/%d/%Y %I:%M:%S %p")
+  ) |> 
+  # finding number of days between when defendant was referred
+  # to a diversion program and when they graduated/failed 
+  mutate(
+    days_between = as.numeric(
+      as.Date(diversion_closed_date) - as.Date(referral_date)
+    )
+  ) |> 
+  # finding years, rounded to two decimal places 
+  mutate(
+    years = round(days_between / 365, 2) 
+  ) |> 
+  
+ 
+
+# breakdown of participants in diversion programs 
 diversion |> 
-  # getting rid of cases where diversion_result = NA 
-  filter(!is.na(diversion_result)) |> 
-  # getting rid of cases where race is unknown 
-  filter(!(race == "Unknown")) |> 
-  # getting rid of cases where gender is unknown
-  filter(!(gender == "Unknown")) |> 
-  # making dates usable + adding in year variables
-  mutate(received_date = mdy_hms(received_date),
-         received_year = year(received_date),
-         referral_date = mdy_hms(referral_date),
-         referral_year = year(referral_date),
-         diversion_closed_date = mdy_hms(diversion_closed_date),
-         diversion_closed_year = year(diversion_closed_date),
-         # finding time in programs from referral to close
-         time = diversion_closed_year - referral_year) |>
-  filter(diversion_result == "Graduated") |> 
-  count(time) |> 
+  group_by(diversion_program, race, gender) |> 
+  count(offense_category) |> 
   arrange(desc(n)) |> 
   view()
+
+# female participants in programs 
+diversion |> 
+  filter(gender == "Female") |> 
+  count(diversion_program) |> 
+  view()
+
+# male participants in programs
+diversion |> 
+  filter(gender == "Male") |> 
+  count(diversion_program) |> 
+  view()
+
 
 
 # processing steps to explore

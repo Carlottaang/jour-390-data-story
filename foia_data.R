@@ -35,16 +35,5 @@ foia_data |>
   view()
 
 
-# handling dates
-foia_data |> 
-  mutate(received_date = mdy_hms(received_date),
-         received_year = year(received_date),
-         referral_date = mdy_hms(referral_date),
-         referral_year = year(referral_date),
-         diversion_closed_date = mdy_hms(diversion_closed_date),
-         diversion_closed_year = year(diversion_closed_date),
-         # finding time in programs from referral to close
-         time = diversion_closed_year - referral_year) 
-  
   
   
