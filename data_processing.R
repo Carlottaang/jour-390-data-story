@@ -25,7 +25,10 @@ diversion <- read_csv(here("data/Diversion_20250514.csv")) |>
 sentencing <- read_csv(here("data/Sentencing_20250514.csv")) |> 
   janitor::clean_names()
 
-# data processing 
+
+
+
+# data processing ----
 diversion <- diversion |> 
   mutate(
     # changing variable types / formatting of dates 
@@ -48,8 +51,47 @@ diversion <- diversion |>
   mutate(
     years = round(days_between / 365, 2) 
   ) |> 
+  # removing programs that no longer exist 
+  filter(
+    !diversion_program == "DS" & !diversion_program == "ARI"
+  ) |> 
+  # new variable - pre plea vs. post plea programs
+  mutate(
+    plea = case_when(
+      diversion_program %in% c("BR9", "DDPP", "RJCC", "SEED")  ~ "pre-plea",
+      diversion_program %in% c("ACT", "DC", "MHC", "VC")  ~ "post-plea"
+    ) 
+  ) |> 
+  # extracting year from date
+  mutate(
+    referral_year = year(referral_date),
+    diversion_closed_year = year(diversion_closed_date)
+  ) 
+
+
+# data analysis & findings ----
+
+
+# offense category
+diversion |> 
+  count(offense_category) |> 
+  arrange(desc(n)) |> 
+  view()
   
- 
+# year 
+diversion |> 
+  count(diversion_closed_year) |> 
+  arrange(desc(n)) |> 
+  view()
+
+diversion |> 
+  count(referral_year) |> 
+  arrange(desc(n)) |> 
+  view()
+
+# pre vs. post plea success/failure
+
+
 
 # breakdown of participants in diversion programs 
 diversion |> 
