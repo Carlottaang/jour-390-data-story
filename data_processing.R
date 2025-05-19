@@ -40,8 +40,7 @@ diversion <- diversion |>
       diversion_closed_date,
       format = "%m/%d/%Y %I:%M:%S %p")
   ) |> 
-  # finding number of days between when defendant was referred
-  # to a diversion program and when they graduated/failed 
+  # finding number of days between when defendant was referred to a diversion program and when they graduated/failed 
   mutate(
     days_between = as.numeric(
       as.Date(diversion_closed_date) - as.Date(referral_date)
@@ -79,24 +78,32 @@ diversion |>
 
 # offense category
 diversion |> 
+  # number of rows in each category
   count(offense_category) |> 
+  # most to least
   arrange(desc(n)) |> 
   view()
   
 # year 
 diversion |> 
+  # number of closed cases each year 
   count(diversion_closed_year) |> 
+  # most to least 
   arrange(desc(n)) |> 
   view()
 
 diversion |> 
+  # number of referrals each year 
   count(referral_year) |> 
+  # most to least 
   arrange(desc(n)) |> 
   view()
 
 # pre vs. post plea success/failure
 diversion |> 
+  # setting up to compare pre vs. post plea outcomes
   group_by(plea) |> 
+  # number of failures, graduations, current/unknown programs
   count(diversion_result) |> 
   view()
 
