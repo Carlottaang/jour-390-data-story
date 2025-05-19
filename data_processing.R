@@ -34,10 +34,12 @@ diversion <- diversion |>
     # changing variable types / formatting of dates 
     referral_date = as.POSIXct(
       referral_date, 
+      # used chat gpt to help determine correct format for data set 
       format = "%m/%d/%Y %I:%M:%S %p"
     ),
     diversion_closed_date = as.POSIXct(
       diversion_closed_date,
+      # used chat gpt to help determine correct format for data set 
       format = "%m/%d/%Y %I:%M:%S %p")
   ) |> 
   # finding number of days between when defendant was referred to a diversion program and when they graduated/failed 
@@ -57,8 +59,8 @@ diversion <- diversion |>
   # new variable - pre plea vs. post plea programs
   mutate(
     plea = case_when(
-      diversion_program %in% c("BR9", "DDPP", "RJCC", "SEED")  ~ "pre-plea",
-      diversion_program %in% c("ACT", "DC", "MHC", "VC")  ~ "post-plea"
+      diversion_program %in% c("BR9", "DDPP", "RJCC", "SEED")  ~ "pre",
+      diversion_program %in% c("ACT", "DC", "MHC", "VC")  ~ "post"
     ) 
   ) |> 
   # extracting year from date
@@ -67,7 +69,7 @@ diversion <- diversion |>
     diversion_closed_year = year(diversion_closed_date)
   ) |> 
   # removing incorrect values 
-  filter(!referral_year < 1970 )
+  filter(!referral_year < 1970)
 
 
 # data analysis & findings ----
@@ -117,12 +119,14 @@ diversion |>
 
 # female participants in programs 
 diversion |> 
+  # selecting female participants only 
   filter(gender == "Female") |> 
   count(diversion_program) |> 
   view()
 
 # male participants in programs
 diversion |> 
+  # selecting male participants only 
   filter(gender == "Male") |> 
   count(diversion_program) |> 
   view()
