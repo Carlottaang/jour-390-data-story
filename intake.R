@@ -10,5 +10,14 @@ intake <- read_csv(here("data/Intake_20250514.csv")) |>
   janitor::clean_names()
 
 
+# finding number of intake cases that resulted in an approved felony case
 intake |> 
-  view()
+    filter(
+      felony_review_result == "Approved" | felony_review_result == "Charge(S) Approved"
+    ) |> 
+    mutate(
+      felony_review_year = as.POSIXct(
+        felony_review_date, 
+        format = "%m/%d/%Y"
+      )
+    ) 
