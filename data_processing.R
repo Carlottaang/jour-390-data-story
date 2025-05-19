@@ -84,10 +84,6 @@ diversion <- diversion |>
 
 
 # data analysis & findings ----
-diversion |> 
-  filter(referral_year < 1970 ) |> 
-  view()
-
 
 # offense category
 diversion |> 
@@ -99,8 +95,8 @@ diversion |>
   
 # year 
 diversion |> 
-  # number of closed cases each year 
-  count(diversion_closed_year) |> 
+  # number of referrals each year 
+  count(referral_year) |> 
   # most to least 
   arrange(desc(n)) |> 
   view()
@@ -108,8 +104,18 @@ diversion |>
 diversion |> 
   # number of referrals each year 
   count(referral_year) |> 
+  view()
+
+diversion |> 
+  # number of closed cases each year 
+  count(diversion_closed_year) |> 
   # most to least 
   arrange(desc(n)) |> 
+  view()
+
+diversion |> 
+  # number of closed cases each year 
+  count(diversion_closed_year) |> 
   view()
 
 # pre vs. post plea success/failure

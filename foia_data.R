@@ -8,6 +8,14 @@ library(here)
 foia_data <- read_csv(here("data/Angiolillo__Carlotta_responsive_docs (3).csv")) |> 
   janitor::clean_names()
 
+# data processing
+foia_data_2 <- foia_data |> 
+  mutate(
+    referral_date = as.Date(referral_date, format = "%m/%d/%Y"),
+    referral_year = format(referral_date, "%Y")
+  ) 
+
+
 # exploring data 
 foia_data |> 
   skimr::skim_without_charts() |> 
