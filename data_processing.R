@@ -69,7 +69,18 @@ diversion <- diversion |>
     diversion_closed_year = year(diversion_closed_date)
   ) |> 
   # removing incorrect values 
-  filter(!referral_year < 1970)
+  filter(!referral_year < 1970) |> 
+  # categorizing how long people have spent in programs
+  mutate(
+    one_year = case_when(
+      # less than one year 
+      years <= 0.99 ~ "less",
+      # one year 
+      years == 1.00 ~ "one",
+      # more than one year 
+      years >= 1.01 ~ "more"
+    )
+  ) 
 
 
 # data analysis & findings ----
@@ -109,6 +120,20 @@ diversion |>
   count(diversion_result) |> 
   view()
 
+# how long people are in programs, grouped by timing of plea
+# pre 
+diversion |> 
+  filter(plea == "pre") |> 
+  count(one_year) |> 
+  arrange(desc(n)) |> 
+  view()
+
+# post 
+diversion |> 
+  filter(plea == "post") |> 
+  count(one_year) |> 
+  arrange(desc(n)) |> 
+  view()
 
 # breakdown of participants in diversion programs 
 diversion |> 
@@ -130,8 +155,7 @@ diversion |>
   filter(gender == "Male") |> 
   count(diversion_program) |> 
   view()
+  
 
-  
-  
   
   
