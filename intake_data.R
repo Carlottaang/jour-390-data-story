@@ -51,6 +51,55 @@ intake |>
   arrange(felony_review_year) |> 
   view()
 
+# offense category counts
+intake |> 
+  count(offense_category) |> 
+  arrange(desc(n)) |> 
+  view()
+
+# narcotics = 181,635
+
+# update offense category counts
+intake |> 
+  count(update_offense_category) |> 
+  arrange(desc(n)) |> 
+  view()
+
+# narcotics = 184,939
+
+intake |> 
+  count(felony_review_result) |> 
+  view()
+
+intake |> 
+  filter(is.na(felony_review_result)) |> 
+  filter(update_offense_category == "Narcotics") |> 
+  view()
+
+intake |> 
+  filter(update_offense_category == "Narcotics") |> 
+  filter(!(felony_review_result == "Rejected")) |> 
+  filter(!(felony_review_result == "Disregard")) |> 
+  count(felony_review_result)
+
+intake |> 
+  filter(felony_review_result == "Rejected" | felony_review_result == "Disregard") |> 
+  count()
+
+intake |> 
+  filter(!(felony_review_result == "Rejected") | !(felony_review_result == "Disregard")) |> 
+  count()
+
+# cases where offense category changed
+intake |> 
+  select(offense_category, update_offense_category) |> 
+  filter(!(offense_category == update_offense_category)) |> 
+  view()
+
+
+
+
+
 
 
 
