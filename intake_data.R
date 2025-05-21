@@ -31,3 +31,30 @@ intake |>
   view()
 
 
+
+intake |> 
+  # finding number of intake cases that resulted in an approved felony case
+  filter(
+    felony_review_result == "Approved" | felony_review_result == "Charge(S) Approved"
+  ) |> 
+  # pulling year out of felony review date 
+  mutate(
+    felony_review_year = year(mdy(felony_review_date))
+  ) |> 
+  # filtering for correct years
+  filter(felony_review_year > 1970) |>
+  filter(felony_review_year < 2030) |> 
+  # grouping by year 
+  group_by(felony_review_year, update_offense_category) |> 
+  filter(update_offense_category == "Narcotics") |> 
+  count(update_offense_category) |> 
+  arrange(felony_review_year) |> 
+  view()
+
+
+
+
+
+
+
+
