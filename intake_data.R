@@ -10,6 +10,7 @@ intake <- read_csv(here("data/Intake_20250514.csv")) |>
   janitor::clean_names()
 
 
+# data processing/analysis ----
 intake |> 
   # finding number of intake cases that resulted in an approved felony case
     filter(
@@ -28,3 +29,5 @@ intake |>
   summarise(approved_felony_cases = n()) |> 
   arrange(felony_review_year) |> 
   view()
+
+

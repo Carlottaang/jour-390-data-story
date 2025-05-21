@@ -21,7 +21,8 @@ diversion <- diversion |>
     diversion_closed_date = as.POSIXct(
       diversion_closed_date,
       # used chat gpt to help determine correct format for data set 
-      format = "%m/%d/%Y %I:%M:%S %p")
+      format = "%m/%d/%Y %I:%M:%S %p"
+    )
   ) |> 
   # finding number of days between when defendant was referred to a diversion program and when they graduated/failed 
   mutate(
