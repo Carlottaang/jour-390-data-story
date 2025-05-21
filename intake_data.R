@@ -1,0 +1,30 @@
+### Data processing/analysis ----
+
+# load packages 
+library(tidyverse)
+library(here)
+
+# load data ----
+# intake data 
+intake <- read_csv(here("data/Intake_20250514.csv")) |> 
+  janitor::clean_names()
+
+
+intake |> 
+  # finding number of intake cases that resulted in an approved felony case
+    filter(
+      felony_review_result == "Approved" | felony_review_result == "Charge(S) Approved"
+    ) |> 
+  # pulling year out of felony review date 
+    mutate(
+      felony_review_year = year(mdy(felony_review_date))
+    ) |> 
+  # filtering for correct years
+  filter(felony_review_year > 1970) |>
+  filter(felony_review_year < 2030) |> 
+  # grouping by year 
+  group_by(felony_review_year) |> 
+  # finding number of approved felony cases by year 
+  summarise(approved_felony_cases = n()) |> 
+  arrange(felony_review_year) |> 
+  view()

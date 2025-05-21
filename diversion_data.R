@@ -5,27 +5,8 @@ library(tidyverse)
 library(here)
 
 # load data ----
-# dispositions data 
-dispositions <- read_csv(here("data/Dispositions_20250514.csv")) |> 
-  janitor::clean_names()
-
-# initiation data 
-initiation <- read_csv(here("data/Initiation_20250514.csv")) |> 
-  janitor::clean_names()
-
-# intake data 
-intake <- read_csv(here("data/Intake_20250514.csv")) |> 
-  janitor::clean_names()
-
-# diversion data 
 diversion <- read_csv(here("data/Diversion_20250514.csv")) |> 
   janitor::clean_names()
-
-# sentencing data 
-sentencing <- read_csv(here("data/Sentencing_20250514.csv")) |> 
-  janitor::clean_names()
-
-
 
 
 # data processing ----
@@ -68,7 +49,7 @@ diversion <- diversion |>
     referral_year = year(referral_date),
     diversion_closed_year = year(diversion_closed_date)
   ) |> 
-  # removing incorrect values 
+  # removing observations from before 1970 
   filter(!referral_year < 1970) |> 
   # categorizing how long people have spent in programs
   mutate(
