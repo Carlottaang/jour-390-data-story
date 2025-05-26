@@ -11,6 +11,7 @@ intake <- read_csv(here("data/Intake_20250514.csv")) |>
 
 
 # data processing/analysis ----
+# number of approved felony cases per year 
 intake |> 
   # finding number of intake cases that resulted in an approved felony case
     filter(
@@ -31,7 +32,7 @@ intake |>
   view()
 
 
-
+# approved felony (narcotics) cases per year 
 intake |> 
   # finding number of intake cases that resulted in an approved felony case
   filter(
@@ -80,7 +81,8 @@ intake |>
   filter(update_offense_category == "Narcotics") |> 
   filter(!(felony_review_result == "Rejected")) |> 
   filter(!(felony_review_result == "Disregard")) |> 
-  count(felony_review_result)
+  count(felony_review_result) |> 
+  view()
 
 intake |> 
   filter(felony_review_result == "Rejected" | felony_review_result == "Disregard") |> 
