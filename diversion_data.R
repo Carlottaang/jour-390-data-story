@@ -83,10 +83,6 @@ diversion |>
   arrange(desc(n)) |> 
   view()
 
-diversion |> 
-  # number of referrals each year 
-  count(referral_year) |> 
-  view()
 
 diversion |> 
   # number of closed cases each year 
@@ -95,16 +91,13 @@ diversion |>
   arrange(desc(n)) |> 
   view()
 
-diversion |> 
-  # number of closed cases each year 
-  count(diversion_closed_year) |> 
-  view()
 
 # number of failed cases every year 
 diversion |> 
   group_by(diversion_closed_year) |>
   filter(diversion_result == "Failed") |> 
   count(diversion_result) |> 
+  arrange(desc(n)) |> 
   view()
   
 # number of graduates every year
@@ -112,6 +105,7 @@ diversion |>
   group_by(diversion_closed_year) |>
   filter(diversion_result == "Graduated") |> 
   count(diversion_result) |> 
+  arrange(desc(n)) |> 
   view()
 
 
@@ -121,6 +115,16 @@ diversion |>
   group_by(plea) |> 
   # number of failures, graduations, current/unknown programs
   count(diversion_result) |> 
+  arrange(desc(n)) |> 
+  view()
+
+# how many are pre vs. post plea 
+diversion |> 
+  # setting up to compare pre vs. post plea outcomes
+  group_by(plea) |> 
+  # number of failures, graduations, current/unknown programs
+  count() |> 
+  arrange(desc(n)) |> 
   view()
 
 # how long people are in programs, grouped by timing of plea
@@ -161,6 +165,31 @@ diversion |>
   arrange(desc(n)) |> 
   view()
   
+
+
+
+# DDPP and BR9 over time 
+# BR9 
+diversion |> 
+  filter(diversion_program == "BR9") |> 
+  group_by(referral_year) |> 
+  count() |> 
+  view()
+
+
+# DDPP
+diversion |> 
+  filter(diversion_program == "DDPP") |> 
+  group_by(referral_year) |> 
+  count() |> 
+  view()
+
+
+
+
+
+
+
 
   
   
