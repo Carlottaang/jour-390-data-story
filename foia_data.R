@@ -16,10 +16,6 @@ foia_data_2 <- foia_data |>
     diversion_closed_date = as.Date(diversion_closed_date, format = "%m/%d/%Y"),
     diversion_closed_year = format(diversion_closed_date, "%Y")
   ) |> 
-  # removing programs that no longer exist 
-  filter(
-    !diversion_program == "DS" & !diversion_program == "ARI"
-  ) |> 
   # new variable - pre plea vs. post plea programs
   mutate(
     plea = case_when(
@@ -50,7 +46,7 @@ foia_data_2 <- foia_data |>
   ) 
 
 
-# data exploration
+# data exploration ----
 foia_data |> 
   skimr::skim_without_charts() |> 
   view()
@@ -74,6 +70,43 @@ foia_data |>
   filter(gender == "Male") |> 
   count(diversion_program) |> 
   arrange(desc(n)) |> 
+  view()
+
+
+
+# year 
+foia_data_2 |> 
+  # number of referrals each year 
+  count(referral_year) |> 
+  # most to least 
+  arrange(referral_year) |> 
+  view()
+
+
+foia_data_2 |> 
+  # number of closed cases each year 
+  count(diversion_closed_year) |> 
+  # most to least 
+  arrange(desc(n)) |> 
+  view()
+
+
+# number of failed cases every year 
+foia_data_2 |> 
+  group_by(diversion_closed_year) |>
+  filter(diversion_result == "Failed") |> 
+  count(diversion_result) |> 
+  arrange(diversion_closed_year) |> 
+  select(n) |> 
+  view()
+
+# number of graduates every year
+foia_data_2 |> 
+  group_by(diversion_closed_year) |>
+  filter(diversion_result == "Graduated") |> 
+  count(diversion_result) |> 
+  arrange(diversion_closed_year) |> 
+  select(n) |> 
   view()
 
 
