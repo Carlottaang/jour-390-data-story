@@ -22,13 +22,57 @@ intake |>
       felony_review_year = year(mdy(felony_review_date))
     ) |> 
   # filtering for correct years
-  filter(felony_review_year > 1970) |>
+  filter(felony_review_year > 2010) |>
   filter(felony_review_year < 2030) |> 
   # grouping by year 
   group_by(felony_review_year) |> 
   # finding number of approved felony cases by year 
   summarise(approved_felony_cases = n()) |> 
   arrange(felony_review_year) |> 
+  view()
+
+# felony review results 
+intake |> 
+  # pulling year out of felony review date 
+  mutate(
+    felony_review_year = year(mdy(felony_review_date))
+  ) |> 
+  # filtering for correct years
+  filter(felony_review_year > 2010) |>
+  filter(felony_review_year < 2030) |> 
+  # grouping by year 
+  group_by(felony_review_result) |> 
+  count() |> 
+  arrange(desc(n)) |> 
+  view()
+
+# felony review results - 2019
+intake |> 
+  # pulling year out of felony review date 
+  mutate(
+    felony_review_year = year(mdy(felony_review_date))
+  ) |> 
+  # filtering for correct years
+  filter(felony_review_year == 2019) |>
+  # grouping by year 
+  group_by(felony_review_result) |> 
+  count() |> 
+  arrange(desc(n)) |> 
+  view()
+
+
+# felony review results - 2020
+intake |> 
+  # pulling year out of felony review date 
+  mutate(
+    felony_review_year = year(mdy(felony_review_date))
+  ) |> 
+  # filtering for correct years
+  filter(felony_review_year == 2020) |>
+  # grouping by year 
+  group_by(felony_review_result) |> 
+  count() |> 
+  arrange(desc(n)) |> 
   view()
 
 
