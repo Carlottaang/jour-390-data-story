@@ -47,26 +47,33 @@ foia_data_2 <- foia_data |>
 
 
 # data exploration ----
-foia_data |> 
+foia_data_2 |> 
   skimr::skim_without_charts() |> 
   view()
 
 # breakdown of participants in diversion programs 
-foia_data |> 
+foia_data_2 |> 
   group_by(diversion_program, race, gender) |> 
   count(offense_category) |> 
   arrange(desc(n)) |> 
   view()
 
+# largest programs 
+foia_data_2 |> 
+  count(diversion_program) |> 
+  arrange(desc(n)) |> 
+  view()
+
+
 # female participants in programs 
-foia_data |> 
+foia_data_2 |> 
   filter(gender == "Female") |> 
   count(diversion_program) |> 
   arrange(desc(n)) |> 
   view()
 
 # male participants in programs
-foia_data |> 
+foia_data_2 |> 
   filter(gender == "Male") |> 
   count(diversion_program) |> 
   arrange(desc(n)) |> 
