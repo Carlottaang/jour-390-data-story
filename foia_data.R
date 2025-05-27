@@ -117,5 +117,31 @@ foia_data_2 |>
   view()
 
 
+
+# how many are pre vs. post plea 
+foia_data_2 |> 
+  # setting up to compare pre vs. post plea outcomes
+  group_by(plea) |> 
+  # number of failures, graduations, current/unknown programs
+  count() |> 
+  arrange(desc(n)) |> 
+  view()
+
+# how long people are in programs, grouped by timing of plea
+# pre 
+foia_data_2 |> 
+  filter(plea == "pre") |> 
+  count(one_year) |> 
+  arrange(desc(n)) |> 
+  view()
+
+# post 
+foia_data_2 |> 
+  filter(plea == "post") |> 
+  count(one_year) |> 
+  arrange(desc(n)) |> 
+  view()
+
+
   
   
