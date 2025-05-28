@@ -1,4 +1,7 @@
 ### Jour 390: Data Story 
-- `data`
-- `data_processing.R`
-- `foia_data.R`
+- `data`: folder that contains data sets for project 
+- `all_data.R`: R script to load and examine all data 
+- `foia_data.R`: R script for data processing and analysis for FOIA diversions data 
+- `intake_data.R`: R script for data processing and analysis for intake data
+- `diversion_data.R`: R script for data processing and analysis for 2024 diversions data 
+
