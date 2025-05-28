@@ -4,8 +4,11 @@
 library(tidyverse)
 library(here)
 
-# load data 
+# load data ----
 foia_data <- read_csv(here("data/Angiolillo__Carlotta_responsive_docs (3).csv")) |> 
+  janitor::clean_names()
+
+intake <- read_csv(here("data/Intake_20250514.csv")) |> 
   janitor::clean_names()
 
 # data processing
@@ -69,7 +72,27 @@ foia_data_2 |>
   view()
 
 
+# data visualization two 
+intake |> 
+  filter(
+    felony_review_result == "Approved" | felony_review_result == "Charge(S) Approved"
+  ) |> 
+  mutate(
+    felony_review_year = year(mdy(felony_review_date))
+  ) |> 
+  filter(felony_review_year > 2010) |>
+  group_by(felony_review_year) |> 
+  summarise(approved_felony_cases = n()) |> 
+  arrange(felony_review_year) |> 
+  view()
 
+
+# data visualization three 
+diversion |> 
+  group_by(plea) |> 
+  count(diversion_result) |> 
+  arrange(desc(n)) |> 
+  view()
 
 
 
