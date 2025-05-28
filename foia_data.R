@@ -118,12 +118,12 @@ foia_data_2 |>
 
 
 
-# how many are pre vs. post plea 
-foia_data_2 |> 
+# pre vs. post plea success/failure
+diversion |> 
   # setting up to compare pre vs. post plea outcomes
   group_by(plea) |> 
   # number of failures, graduations, current/unknown programs
-  count() |> 
+  count(diversion_result) |> 
   arrange(desc(n)) |> 
   view()
 
